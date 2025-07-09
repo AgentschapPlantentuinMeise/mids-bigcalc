@@ -113,14 +113,6 @@ select_props_truncated = select_props %>%
   gsub(".*:","",.) %>%
   tolower()
 
-#add missing columns with all values as NA
-list_props %<>% unique()
-list_props_truncated = list_props %>%
-  gsub(".*:","",.) %>%
-  tolower()
-missing <- c(list_props_truncated)[!c(list_props_truncated) %in% colnames(data)] %>%
-  unique()
-
 ## custom function to remove the class and namespace from the filter arguments
 ## that have been set up by the midscalculator code by default
 ## also sets lower case
@@ -161,8 +153,16 @@ data_colnames = read_tsv("data/0070019-250525065834625.csv",
                     n_max=0) %>%
   colnames()
 
+#add missing columns with all values as NA
+list_props %<>% unique()
+list_props_truncated = list_props %>%
+  gsub(".*:","",.) %>%
+  tolower()
+missing <- c(list_props_truncated)[!c(list_props_truncated) %in% data_colnames] %>%
+  unique()
+
 # loop in batches of 10M through this file and calculate mids for each batch
-for (ibig in 11:20) {
+for (ibig in 2:10) {
   # initial timestamp
   print(paste0("INIT batch ",ibig," at ",Sys.time()))
   # jump in steps of 10M, ignore colnames
@@ -226,7 +226,7 @@ for (ibig in 11:20) {
   # filename of results tsv to save
   save_name = paste0("outputs/sql_results_",
                      ibig,
-                     "_inc_ids.txt")
+                     "_excl_ids.txt")
   
   # save the binary map for each mids element, and the calculated mids level
   # no other data is saved to limit storage needed

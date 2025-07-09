@@ -49,5 +49,5 @@ po/*~
 rsconnect/
 
 # source and output data (too big)
-outputs
+outputs*
 data
