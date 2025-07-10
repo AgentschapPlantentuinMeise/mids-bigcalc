@@ -162,7 +162,7 @@ missing <- c(list_props_truncated)[!c(list_props_truncated) %in% data_colnames] 
   unique()
 
 # loop in batches of 10M through this file and calculate mids for each batch
-for (ibig in 2:10) {
+for (ibig in 24:27) {
   # initial timestamp
   print(paste0("INIT batch ",ibig," at ",Sys.time()))
   # jump in steps of 10M, ignore colnames
@@ -238,6 +238,11 @@ for (ibig in 2:10) {
     mutate_if(is.logical,as.integer) %>%
     #bind_cols(select(data,gbifid,datasetkey)) %>%
     write_tsv(save_name)
+  
+  # try to clear out RAM before the next iteration
+  remove(to_save)
+  remove(data)
+  gc()
   
   # end of iteration timestamp
   print(paste0("FINISH batch ",ibig," at ",Sys.time()))
