@@ -51,3 +51,12 @@ rsconnect/
 # source and output data (too big)
 outputs*
 data
+
+
+# temp folders for dataset filters
+extracted_rows
+match_groups
+
+# ad hoc files that need to be structured and renamed
+821cc27a-e3bb-4bc5-ac34-89ada245069d.txt
+all_matched_rows.tsv
